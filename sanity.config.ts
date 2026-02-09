@@ -8,7 +8,7 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Relocation In Paris ',
+  title: 'Relocation',
 
   projectId: 'ks9vwq45',
   dataset: 'production',
@@ -20,7 +20,7 @@ export default defineConfig({
           .title('Content')
           .items([
             S.listItem()
-              .title('Blog')
+              .title('Relocation In Paris')
               .child(
                 S.list()
                   .title('Blog')
