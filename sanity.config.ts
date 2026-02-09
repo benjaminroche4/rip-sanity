@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {colorInput} from '@sanity/color-input'
 import {media} from 'sanity-plugin-media'
+import {documentInternationalization} from '@sanity/document-internationalization'
 import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
@@ -40,6 +41,14 @@ export default defineConfig({
     visionTool(),
     colorInput(),
     media(),
+    documentInternationalization({
+      supportedLanguages: [
+        {id: 'fr', title: 'Français'},
+        {id: 'en', title: 'English'},
+      ],
+      schemaTypes: ['blog', 'category'],
+      weakReferences: true,
+    }),
   ],
 
   schema: {
