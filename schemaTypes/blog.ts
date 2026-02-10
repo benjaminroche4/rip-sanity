@@ -33,6 +33,15 @@ export const blog = defineType({
       components: {input: StringWithCounter},
     }),
     defineField({
+      name: 'shortDescription',
+      title: 'Short Description',
+      type: 'text',
+      rows: 3,
+      description: 'A brief summary shown below the title to give readers a quick overview of the article (maximum 160 characters).',
+      validation: (rule) => rule.required().max(160),
+      components: {input: StringWithCounter},
+    }),
+    defineField({
       name: 'mainPhoto',
       title: 'Main Photo',
       type: 'image',
@@ -326,8 +335,9 @@ export const blog = defineType({
     defineField({
       name: 'shortDesc',
       title: 'Meta description',
-      type: 'string',
-      description: 'Provide a brief summary of the article, focusing on search intent. This should be a concise overview (maximum 160 characters)',
+      type: 'text',
+      rows: 3,
+      description: 'This text appears below your link in Google search results. Write a compelling summary that encourages users to click (maximum 150 characters).',
       validation: (rule) => rule.required().max(150),
       components: {input: StringWithCounter},
       fieldset: 'seo',
