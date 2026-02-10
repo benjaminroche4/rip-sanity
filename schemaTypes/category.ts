@@ -10,7 +10,6 @@ export const category = defineType({
       name: 'language',
       type: 'string',
       readOnly: true,
-      hidden: true,
     }),
     defineField({
       name: 'name',
@@ -36,4 +35,17 @@ export const category = defineType({
       validation: (rule) => rule.required(),
     }),
   ],
+  preview: {
+    select: {
+      title: 'name',
+      language: 'language',
+    },
+    prepare({title, language}) {
+      const lang = language ? language.toUpperCase() : ''
+      return {
+        title: title || 'Untitled',
+        subtitle: lang,
+      }
+    },
+  },
 })
