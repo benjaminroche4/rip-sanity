@@ -23,7 +23,6 @@ export const blog = defineType({
       name: 'language',
       type: 'string',
       readOnly: true,
-      hidden: true,
     }),
     defineField({
       name: 'title',
@@ -143,6 +142,45 @@ export const blog = defineType({
                     }),
                   ],
                   components: {input: createImageWithMaxSize(300)},
+                },
+                {
+                  name: 'youtube',
+                  title: 'YouTube Video',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'url',
+                      title: 'YouTube URL',
+                      type: 'url',
+                      description: 'e.g. https://www.youtube.com/watch?v=xxx',
+                      validation: (rule) =>
+                        rule.required().uri({scheme: ['https']}).custom((url) => {
+                          if (!url) return true
+                          const pattern = /^https:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)/
+                          if (!pattern.test(url)) {
+                            return 'Please enter a valid YouTube URL.'
+                          }
+                          return true
+                        }),
+                    }),
+                    defineField({
+                      name: 'shortDescription',
+                      title: 'Short Description',
+                      type: 'string',
+                      description: 'A short description displayed below the video (maximum 250 characters).',
+                      validation: (rule) => rule.max(250),
+                      components: {input: StringWithCounter},
+                    }),
+                  ],
+                  preview: {
+                    select: {url: 'url'},
+                    prepare({url}) {
+                      return {
+                        title: 'YouTube Video',
+                        subtitle: url || 'No URL',
+                      }
+                    },
+                  },
                 },
               ],
               fieldset: 'wysiwygBlock',
@@ -325,11 +363,14 @@ export const blog = defineType({
       title: 'title',
       media: 'mainPhoto',
       category: 'category.name',
+      language: 'language',
     },
-    prepare({title, media, category}) {
+    prepare({title, media, category, language}) {
+      const lang = language ? language.toUpperCase() : ''
+      const subtitle = [category || 'No category', lang].filter(Boolean).join(' · ')
       return {
         title: title || 'Untitled',
-        subtitle: category || 'No category',
+        subtitle,
         media,
       }
     },
