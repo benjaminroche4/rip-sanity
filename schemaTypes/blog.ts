@@ -95,6 +95,7 @@ export const blog = defineType({
       name: 'body',
       title: 'Body',
       type: 'array',
+      description: 'The main content of the article. Each article must include at least one internal link (to another page on the site) and one external link (to a relevant third-party source) to optimize SEO.',
       validation: (rule) => rule.required(),
       of: [
         defineArrayMember({
@@ -314,6 +315,56 @@ export const blog = defineType({
             prepare({title}) {
               return {
                 title: 'CTA Block',
+                subtitle: `Title: ${title || 'Untitled'}`,
+              }
+            },
+          },
+        }),
+        defineArrayMember({
+          name: 'quickAnswerBlock',
+          title: 'Quick Answer Block',
+          type: 'object',
+          fieldsets: [
+            {
+              name: 'quickAnswerBlock',
+              title: 'Quick Answer Block',
+            },
+          ],
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+              description: 'This will be the block title, rendered as an H2.',
+              initialValue: 'Réponse rapide',
+              validation: (rule) => rule.required().max(60),
+              components: {input: StringWithCounter},
+              fieldset: 'quickAnswerBlock',
+            }),
+            defineField({
+              name: 'content',
+              title: 'Content',
+              type: 'array',
+              validation: (rule) => rule.required(),
+              of: [
+                {
+                  type: 'block',
+                  styles: [
+                    {title: 'Normal', value: 'normal'},
+                    {title: 'H3', value: 'h3'},
+                    {title: 'H4', value: 'h4'},
+                    {title: 'Quote', value: 'blockquote'},
+                  ],
+                },
+              ],
+              fieldset: 'quickAnswerBlock',
+            }),
+          ],
+          preview: {
+            select: {title: 'title'},
+            prepare({title}) {
+              return {
+                title: 'Quick Answer Block',
                 subtitle: `Title: ${title || 'Untitled'}`,
               }
             },
