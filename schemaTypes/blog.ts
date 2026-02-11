@@ -384,7 +384,7 @@ export const blog = defineType({
       fieldset: 'seo',
     }),
     defineField({
-      name: 'shortDesc',
+      name: 'metaDescription',
       title: 'Meta description',
       type: 'text',
       rows: 3,
